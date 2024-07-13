@@ -1,4 +1,4 @@
-# Truly Amazing ETH ATM
+# MintyFire
 Is a transaction-based project to simulate the process of minting and burning tokens within your account.
 
 ## To Make this work
