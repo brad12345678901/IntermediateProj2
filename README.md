@@ -1,5 +1,5 @@
 # Truly Amazing ETH ATM
-Is a modified project given by the Metacrafters Team of the template given for the project module 2. It is essentially how to simulate smart contracts into your webpages and be interactable with your front-end.
+Is a transaction-based project to simulate the process of minting and burning tokens within your account.
 
 ## To Make this work
 Clone this github project by using git clone {link of this github}. Then after that, do these steps:
