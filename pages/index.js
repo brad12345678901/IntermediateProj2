@@ -1,7 +1,6 @@
 import {useState, useEffect} from "react";
 import {ethers} from "ethers";
-import atm_abi from "../artifacts/contracts/Assessment.sol/Assessment.json";
-import styled from 'styled-jsx'
+import atm_abi from "../artifacts/contracts/Assessment.sol/TokenMintingBurning.json";
 
 export default function HomePage() {
   const [ethWallet, setEthWallet] = useState(undefined);
@@ -55,9 +54,9 @@ export default function HomePage() {
     setATM(atmContract);
   }
 
-  const getBalance = async() => {
+  const getSupply = async() => {
     if (atm) {
-      setBalance((await atm.getBalance()).toNumber());
+      setBalance((await atm.getSupply()).toNumber());
     }
   }
 
@@ -65,14 +64,14 @@ export default function HomePage() {
     setValue(event.target.value);
   }
 
-  const deposit = async() => {
+  const mint = async() => {
     if (atm) {
       const amount = parseInt(val);
       console.log(amount);
       if (amount){
-        let tx = await atm.deposit(amount);
+        let tx = await atm.mint(amount);
         await tx.wait()
-        getBalance();
+        getSupply();
       }
       else{
         console.log("Unidentifiable Amount")
@@ -80,22 +79,22 @@ export default function HomePage() {
     }
   }
 
-  const emptybalance = async() =>{
+  const emptysupply = async() =>{
     if (atm){
       let tx = await atm.emptybalance();
       await tx.wait();
-      getBalance();
+      getSupply();
     }
   }
   
-  const withdraw = async() => {
+  const burn = async() => {
     if (atm) {
       const amount = parseInt(val);
       console.log(amount);
       if (amount){
-        let tx = await atm.withdraw(amount);
+        let tx = await atm.burn(amount);
         await tx.wait();
-        getBalance();
+        getSupply();
       }
       else{
         console.log("Unidentifiable Amount")
@@ -115,7 +114,7 @@ export default function HomePage() {
     }
 
     if (balance == undefined) {
-      getBalance();
+      getSupply();
     }
 
     return (
@@ -123,14 +122,15 @@ export default function HomePage() {
         <div className = 'account-info'>
           <p style={{display:'flex',fontFamily:'Verdana',color:'white',fontSize:'30px',background:"rgb(0,0,0,0.25)"}}>Account Credentials</p>
           <p id = "accnt" style={{display:'flex', color:'white', fontFamily:'Verdana'}}><img src='https://www.pngmart.com/files/10/User-Account-PNG-Clipart.png' width='30px'height='30px'style={{paddingRight:'10px'}}></img>        {account}</p>
-          <p style={{display:'flex', color:'white', fontFamily:'Verdana'}}><img src='https://creazilla-store.fra1.digitaloceanspaces.com/icons/3198868/eth-icon-md.png' width='30px'height='30px'style={{paddingRight:'10px'}}></img> {balance}</p>
+          <p style={{display:'flex', color:'white', fontFamily:'Verdana'}}><img src='https://icon-icons.com/downloadimage.php?id=210761&root=3360/PNG/512/&file=payment_digital_currency_crypto_business_finance_money_coin_token_icon_210761.png' width='30px'height='30px'style={{paddingRight:'10px'}}></img> {balance}</p>
         </div>
         <div className = 'balance-buttons'>
           <form>
           <input required type = 'number' value={val} onChange={handleInputChange}></input>
-          <button type="button" onClick = {deposit}>Deposit</button>
-          <button type='button' onClick = {withdraw}>Withdraw</button>
-          <button type='button' onClick = {emptybalance}>Empty Balance</button>
+          <button type="button" onClick = {mint}><img src='https://cdn2.iconfinder.com/data/icons/nft-flat-1/60/Mint-minting-creating-build-512.png' width='30px' height='30px'></img></button>
+          <button type='button' onClick = {burn}><img src='https://cdn4.iconfinder.com/data/icons/investment-122/267/14_-_Coin_Money._Fire_Burn_Business-512.png' width='30px' height='30px'></img></button>
+          <button type='button' onClick = {emptysupply}><img src='https://cdn3.iconfinder.com/data/icons/shopping-and-ecommerce-32/90/empty_cart-512.png' width='30px' height='30px'></img></button>
+          <button type='button' onClick = {getSupply}>Update</button>
           </form>
         </div>
         <style jsx>
@@ -196,7 +196,7 @@ export default function HomePage() {
   return (
   // the html thing
     <main className="container">
-      <header><h1>Truly Amazing ETH ATM!</h1></header>
+      <header><h1>MintyFire</h1></header>
       {initUser()}
       <style jsx>{`
       .container {
